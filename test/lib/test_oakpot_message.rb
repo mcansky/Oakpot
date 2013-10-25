@@ -1,12 +1,12 @@
 require_relative '../test_helper'
 
 class TestOakableObject
-  include Oakpot::Call
+  include Oakpot::Message
   attr_accessor :phone_number
 end
 
 class TestNonOakableObject
-  include Oakpot::Call
+  include Oakpot::Message
 end
 
 describe TestOakableObject do
@@ -16,12 +16,16 @@ describe TestOakableObject do
     subject.must_respond_to :is_oakpotable?
   end
 
+  it "#send" do
+    subject.must_respond_to :send
+  end
+
   it "is oakpotable" do
     subject.is_oakpotable?.must_be :==, true
   end
 
-  it "should not raise an exception when sending an sms" do
-    subject.call("01010100100").must_be_instance_of Hash
+  it "should returning a hash when sending an sms" do
+    subject.send("a string").must_be_instance_of Hash
   end
 end
 
@@ -37,6 +41,6 @@ describe TestNonOakableObject do
   end
 
   it "should raise an exception when sending an sms" do
-    proc { subject.call("01010100100") }.must_raise NoMethodError
+    proc { subject.send("a string") }.must_raise NoMethodError
   end
 end

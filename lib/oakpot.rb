@@ -25,5 +25,19 @@ module Oakpot
 
   module Call
     include Oakpot
+
+    def call(number)
+      raise NoMethodError unless self.is_oakpotable?
+      {}
+    end
+  end
+
+  module Message
+    include Oakpot
+
+    def send(number)
+      raise NoMethodError unless self.is_oakpotable?
+      {}
+    end
   end
 end

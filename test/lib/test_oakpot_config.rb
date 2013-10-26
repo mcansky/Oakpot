@@ -9,7 +9,6 @@ describe "Configuration" do
     Oakpot.is_connectable?.must_be :==, false
   end
 
-
   describe "setup" do
     before :each do
       Oakpot.setup do |config|
@@ -101,6 +100,16 @@ describe "Configuration" do
 
     it 'should be connectable?' do
       Oakpot.is_connectable?.must_be :==, true
+    end
+
+    describe 'on connect' do
+      before do
+        Oakpot.connect
+      end
+
+      it 'must have an open conenction' do
+        Oakpot.connection.class.must_be :==, Twilio::REST::Client
+      end
     end
 
     after :each do

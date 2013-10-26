@@ -1,15 +1,21 @@
 require 'active_support/core_ext/module/attribute_accessors'
 require "oakpot/version"
+require 'twilio-ruby'
 
 module Oakpot
   @@_ran_once = false
 
-  mattr_accessor :twilio_api_token, :twilio_api_sid, :phone_attr
-  @@twilio_api_token, @@twilio_api_sid, @@phone_attr = nil, nil, nil
+  mattr_accessor :twilio_api_token, :twilio_api_sid, :phone_attr, :connection
+  @@twilio_api_token, @@twilio_api_sid, @@phone_attr, @@connection = nil, nil, nil, nil
 
   def self.setup
     yield self if @@_ran_once == false
     @@_ran_once = true
+  end
+
+  def self.connect
+    @@connection = Twilio::REST::Client.new(@@twilio_api_sid,
+      @@twilio_api_token)
   end
 
   def self.reset

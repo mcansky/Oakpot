@@ -12,6 +12,12 @@ module Oakpot
     @@_ran_once = true
   end
 
+  def self.reset
+    return false unless @@_ran_once
+    @@twilio_api_token, @@twilio_api_sid, @@phone_attr = nil, nil, nil
+    @@_ran_once = false
+  end
+
   def self.phone_field
     @@phone_attr || :phone_number
   end

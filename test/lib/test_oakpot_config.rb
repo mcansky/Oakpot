@@ -31,6 +31,30 @@ describe "Configuration" do
     end
   end
 
+  describe 'test reset config' do
+    before :each do
+      Oakpot.setup do |config|
+        config.twilio_api_token = "34524GVQSDCA2CT34CZDX2"
+        config.twilio_api_sid = "3T34CZVQSDCA24524GCDX2"
+        config.phone_attr = 'blob'
+      end
+      Oakpot.reset
+    end
+
+    it "should not have a custom phone attr" do
+      Oakpot.phone_attr.must_be :==, nil
+    end
+
+    it "should not have any twilio config" do
+      Oakpot.twilio_api_token.must_be :==, nil
+      Oakpot.twilio_api_sid.must_be :==, nil
+    end
+
+    it "should return default phone field" do
+      Oakpot.phone_field.must_be :==, :phone_number
+    end
+  end
+
   describe "Test Configuration" do
     before :each do
       Oakpot.setup do |config|

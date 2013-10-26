@@ -9,6 +9,11 @@ class TestNonOakableObject
   include Oakpot::Message
 end
 
+class TestCustomOakableObject
+  include Oakpot::Message
+  attr_accessor :telephone
+end
+
 describe TestOakableObject do
   subject { TestOakableObject.new }
 
@@ -26,6 +31,32 @@ describe TestOakableObject do
 
   it "should returning a hash when sending an sms" do
     subject.send("a string").must_be_instance_of Hash
+  end
+end
+
+describe TestCustomOakableObject do
+  subject { TestCustomOakableObject.new }
+
+  it "is oakpotable" do
+    subject.is_oakpotable?.must_be :==, false
+  end
+end
+
+describe TestCustomOakableObject do
+  subject { TestCustomOakableObject.new }
+
+  before :each do
+    Oakpot.setup do |config|
+      config.phone_attr = 'telephone'
+    end
+  end
+
+  after :each do
+    Oakpot.reset
+  end
+
+  it "is oakpotable" do
+    subject.is_oakpotable?.must_be :==, true
   end
 end
 

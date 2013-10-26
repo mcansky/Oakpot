@@ -72,9 +72,21 @@ module Oakpot
   module Message
     include Oakpot
 
-    def send(number)
+    def boilerplate(hsh = {})
       raise NoMethodError unless self.is_oakpotable?
-      {}
+      raise NoMethodError unless Oakpot.is_connectable?
+      @@connection.account.messages.create(from: hsh[:from], to: hsh[:to],
+        body: hsh[:message])
+    end
+
+    def message(to_number, _message)
+      boilerplate(from: number,
+        to: to_number, message: _message)
+    end
+
+    def message_from(from_number, _message)
+      boilerplate(from: from_number,
+        to: number, message: _message)
     end
   end
 end

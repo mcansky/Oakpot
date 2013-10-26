@@ -78,6 +78,36 @@ puts call.sid
 As Oakpot uses the Twilio-ruby gem the *call* method returns a Twilio::REST::Call object. This mean that you can handle it by using Twilio-ruby methods. Check http://twilio-ruby.readthedocs.org/en/latest/usage/phone-calls.html for details.
 
 
+## Sending a SMS
+
+So, you have a User class including the Oakpot::Message module such as :
+
+```ruby
+class User
+  include Oakpot::Message
+  attr_accessor :phone_number
+end
+```
+
+To be able to trigger calls from this user's number to another number you will need :
+* a valid phone number for the user
+* a valid phone number for the call receiver
+* a string
+
+```ruby
+user = User.new(phone_number: '+33000000000')
+to = '+33000000001'
+message = 'a message'
+message = user.message(to, message)
+# and reversing to and from
+message = user.message_from(from_number, message)
+```
+
+As Oakpot uses the Twilio-ruby gem the *message* and *message_from* methods return a Twilio::REST::Message object. This mean that you can handle it by using Twilio-ruby methods. Check http://twilio-ruby.readthedocs.org/en/latest/usage/messages.html for details.
+
+The *message* method will deliver the message to the number passed as first parameter while the *message_from* will deliver the message to the object's number.
+
+
 ## Contributing
 
 1. Fork it

@@ -106,7 +106,7 @@ describe TestOakableObject do
     proc { subject.call(@test_to, nil) }.must_raise ArgumentError
   end
 
-  it "should return a hash when passing a call" do
+  it "should return a Twilio::REST::Call when passing a call" do
     twiml_url = 'https://demo.twilio.com/welcome/voice/'
     @call = subject.call(@test_to, twiml_url)
     @call.must_be_instance_of Twilio::REST::Call

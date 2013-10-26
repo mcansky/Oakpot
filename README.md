@@ -16,6 +16,10 @@ Or install it yourself as:
 
     $ gem install oakpot
 
+## Intro
+
+Oakpot is aimed to simplify the call and message triggers for your app by packing the wiring out of view. For messages it will be mostly enough, but for calls Oakpot does not handle the TwiML endpoints or the call object once the call is started. Your application will have to take care of those.
+
 ## Usage
 
 To be able to use the Oakpot added methods the class you are going to extend must define an instance method or attribute called "phone_number".
@@ -44,6 +48,25 @@ To allow more flexibility you can use a custom phone number field and configure 
     config.phone_attr = 'telephone'
   end
 ```
+
+## Triggering a call
+
+So, you have a User class including the Oakpot::Call module such as :
+
+```ruby
+class User
+  include Oakpot::Call
+  attr_accessor :phone_number
+end
+```
+
+To be able to trigger calls from this user's number to another number you will need :
+* a valid phone number for the user
+* a valid phone number for the call receiver
+* a valid TwiML url endpoint
+
+If you are not familiar with TwiML you should checkout Twilio documentation : https://www.twilio.com/docs.
+
 
 ## Contributing
 

@@ -24,9 +24,9 @@ Oakpot is aimed to simplify the call and message triggers for your app by packin
 
 To be able to use the Oakpot added methods the class you are going to extend must define an instance method or attribute called "phone_number".
 
-Including the Oakpot::Message module in a class will add the capacity to trigger sms to the number returned by the "phone_number" method. A string will be necessary (the message itself).
+Including the Oakpot::Message module in a class will add the capacity to trigger sms to (or from) the object's number. See below for details.
 
-Including the Oakpot::Call module in a class will add the capacity to trigger calls to the number returned by the "phone_number" method. A valid phone number will be necessary as parameter (yours or the one you want to be connected with the number provided by the object).
+Including the Oakpot::Call module in a class will add the capacity to trigger calls between the object's number and the number you provide. See below for details.
 
 You will also need to do a bit of setup somewhere in your code. A Rails initializer will do nicely :
 
@@ -66,6 +66,16 @@ To be able to trigger calls from this user's number to another number you will n
 * a valid TwiML url endpoint
 
 If you are not familiar with TwiML you should checkout Twilio documentation : https://www.twilio.com/docs.
+
+```ruby
+user = User.new(phone_number: '+33000000000')
+to = '+33000000001'
+twiml_url = 'https://demo.twilio.com/welcome/voice/'
+call = user.call(to, twiml_url)
+puts call.sid
+```
+
+As Oakpot uses the Twilio-ruby gem the *call* method returns a Twilio::REST::Call object. This mean that you can handle it by using Twilio-ruby methods. Check http://twilio-ruby.readthedocs.org/en/latest/usage/phone-calls.html for details.
 
 
 ## Contributing

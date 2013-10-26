@@ -110,6 +110,7 @@ describe TestOakableObject do
     twiml_url = 'https://demo.twilio.com/welcome/voice/'
     @call = subject.call(@test_to, twiml_url)
     @call.must_be_instance_of Twilio::REST::Call
+    @call.sid.must_be_instance_of String
   end
 
   after :each do

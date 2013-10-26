@@ -4,12 +4,16 @@ require "oakpot/version"
 module Oakpot
   @@_ran_once = false
 
-  mattr_accessor :twilio_api_token, :twilio_api_sid
-  @@twilio_api_token, @@twilio_api_sid = nil, nil
+  mattr_accessor :twilio_api_token, :twilio_api_sid, :phone_attr
+  @@twilio_api_token, @@twilio_api_sid, @@phone_attr = nil, nil, nil
 
   def self.setup
     yield self if @@_ran_once == false
     @@_ran_once = true
+  end
+
+  def self.phone_field
+    @@phone_attr || :phone_number
   end
 
   def self.load_and_set_settings!
@@ -17,6 +21,8 @@ module Oakpot
     Kernel.const_set('TWILIO_TOKEN', Oakpot.twilio_api_token)
     Kernel.send(:remove_const, 'TWILIO_SID') if Kernel.const_defined?('TWILIO_SID')
     Kernel.const_set('TWILIO_SID', Oakpot.twilio_api_sid)
+    Kernel.send(:remove_const, 'OAKPOT_PHONE_ATTR') if Kernel.const_defined?('OAKPOT_PHONE_ATTR')
+    Kernel.const_set('OAKPOT_PHONE_ATTR', Oakpot.phone_attr)
   end
 
   def is_oakpotable?

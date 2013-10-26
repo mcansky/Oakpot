@@ -5,6 +5,11 @@ describe "Configuration" do
     Oakpot.phone_field.must_be :==, :phone_number
   end
 
+  it 'should be connectable?' do
+    Oakpot.is_connectable?.must_be :==, false
+  end
+
+
   describe "setup" do
     before :each do
       Oakpot.setup do |config|
@@ -81,6 +86,25 @@ describe "Configuration" do
 
     it 'should have OAKPOT_PHONE_ATTR constant' do
       OAKPOT_PHONE_ATTR.must_be :==, "blob"
+    end
+  end
+
+  describe 'twilio connection' do
+    before :each do
+      path = File.expand_path File.dirname(__FILE__)
+      twilio_config = YAML.load_file(path + '/../twilio_config.yml')
+      Oakpot.setup do |config|
+        config.twilio_api_token = twilio_config['TWILIO_API_TOKEN']
+        config.twilio_api_sid = twilio_config['TWILIO_API_SID']
+      end
+    end
+
+    it 'should be connectable?' do
+      Oakpot.is_connectable?.must_be :==, true
+    end
+
+    after :each do
+      Oakpot.reset
     end
   end
 end

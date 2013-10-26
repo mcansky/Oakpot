@@ -22,6 +22,13 @@ module Oakpot
     @@phone_attr || :phone_number
   end
 
+  def self.is_connectable?
+    if @@twilio_api_sid && @@twilio_api_token
+      return true
+    end
+    false
+  end
+
   def self.load_and_set_settings!
     Kernel.send(:remove_const, 'TWILIO_TOKEN') if Kernel.const_defined?('TWILIO_TOKEN')
     Kernel.const_set('TWILIO_TOKEN', Oakpot.twilio_api_token)

@@ -71,3 +71,17 @@ describe TestNonOakableObject do
     proc { subject.call("01010100100") }.must_raise NoMethodError
   end
 end
+
+describe TestOakableObject do
+  before :each do
+    config = YAML.load_file('../twilio_config.yml')
+    Oakpot.setup do |config|
+      config.twilio_api_token = config['TWILIO_API_TOKEN']
+      config.twilio_api_sid = config['TWILIO_API_SID']
+    end
+  end
+
+  after :each do
+    Oakpot.reset
+  end
+end

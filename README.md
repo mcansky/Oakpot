@@ -33,6 +33,18 @@ You will also need to do a bit of setup somewhere in your code. A Rails initiali
   end
 ```
 
+## Custom phone number field
+
+To allow more flexibility you can use a custom phone number field and configure Oakpot to use it.
+
+```ruby
+  Oakpot.setup do |config|
+    config.twilio_api_token = "<your_token>"
+    config.twilio_api_sid = "<your_sid>"
+    config.phone_attr = 'telephone'
+  end
+```
+
 ## Contributing
 
 1. Fork it

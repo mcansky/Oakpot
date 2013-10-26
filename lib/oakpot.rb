@@ -32,7 +32,7 @@ module Oakpot
   end
 
   def is_oakpotable?
-    self.respond_to?(:phone_number)
+    self.respond_to?(Oakpot.phone_field.to_sym)
   end
 
   module Call

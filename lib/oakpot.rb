@@ -53,6 +53,7 @@ module Oakpot
 
     def call(number)
       raise NoMethodError unless self.is_oakpotable?
+      raise NoMethodError unless Oakpot.is_connectable?
       {}
     end
   end

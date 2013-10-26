@@ -25,8 +25,12 @@ describe TestOakableObject do
     subject.is_oakpotable?.must_be :==, true
   end
 
-  it "should return a hash when passing a call" do
-    subject.call("01010100100").must_be_instance_of Hash
+  it "is not connectable" do
+    Oakpot.is_connectable?.must_be :==, false
+  end
+
+  it "should raise an exception when passing a call" do
+    proc { subject.call("01010100100") }.must_raise NoMethodError
   end
 end
 
@@ -74,11 +78,19 @@ end
 
 describe TestOakableObject do
   before :each do
-    config = YAML.load_file('../twilio_config.yml')
+    path = File.expand_path File.dirname(__FILE__)
+    twilio_config = YAML.load_file(path + '/../twilio_config.yml')
     Oakpot.setup do |config|
-      config.twilio_api_token = config['TWILIO_API_TOKEN']
-      config.twilio_api_sid = config['TWILIO_API_SID']
+      config.twilio_api_token = twilio_config['TWILIO_API_TOKEN']
+      config.twilio_api_sid = twilio_config['TWILIO_API_SID']
     end
+    Oakpot.connect
+  end
+
+  subject { TestOakableObject.new }
+
+  it "should return a hash when passing a call" do
+    subject.call("01010100100").must_be_instance_of Hash
   end
 
   after :each do

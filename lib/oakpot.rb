@@ -44,6 +44,10 @@ module Oakpot
     Kernel.const_set('OAKPOT_PHONE_ATTR', Oakpot.phone_attr)
   end
 
+  def number
+    self.send(Oakpot.phone_field.to_sym)
+  end
+
   def is_oakpotable?
     self.respond_to?(Oakpot.phone_field.to_sym)
   end
@@ -51,10 +55,17 @@ module Oakpot
   module Call
     include Oakpot
 
-    def call(number)
+    #
+    # Create a call between the object number's and the number passed as
+    # first param, the second param must an URL endpoint which outputs
+    # valid TwiML.
+    # The method then return a Twilio::REST::Call object
+    def call(to_number, url = nil)
       raise NoMethodError unless self.is_oakpotable?
       raise NoMethodError unless Oakpot.is_connectable?
-      {}
+      raise ArgumentError, 'missing TwiML url' unless url
+      @@connection.account.calls.create(from: number, to: to_number,
+        url: url)
     end
   end
 

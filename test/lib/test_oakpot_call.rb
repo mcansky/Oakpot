@@ -89,12 +89,12 @@ end
 describe TestOakableObject do
   before :each do
     path = File.expand_path File.dirname(__FILE__)
-    twilio_config = YAML.load_file(path + '/../twilio_config.yml')
-    @test_to = twilio_config['TEST_TO']
-    @test_from = twilio_config['TEST_FROM']
+    twilio_config = YAML.load_file(path + '/../twilio_config.yml') rescue {}
+    @test_to = twilio_config['TEST_TO'] || ENV['TEST_TO']
+    @test_from = twilio_config['TEST_FROM'] || ENV['TEST_FROM']
     Oakpot.setup do |config|
-      config.twilio_api_token = twilio_config['TWILIO_API_TOKEN']
-      config.twilio_api_sid = twilio_config['TWILIO_API_SID']
+      config.twilio_api_token = twilio_config['TWILIO_API_TOKEN'] || ENV['TWILIO_API_TOKEN']
+      config.twilio_api_sid = twilio_config['TWILIO_API_SID'] || ENV['TWILIO_API_SID']
     end
     Oakpot.connect
     subject.phone_number = @test_from

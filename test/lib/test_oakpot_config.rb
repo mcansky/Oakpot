@@ -91,10 +91,10 @@ describe "Configuration" do
   describe 'twilio connection' do
     before :each do
       path = File.expand_path File.dirname(__FILE__)
-      twilio_config = YAML.load_file(path + '/../twilio_config.yml')
+      twilio_config = YAML.load_file(path + '/../twilio_config.yml') rescue {}
       Oakpot.setup do |config|
-        config.twilio_api_token = twilio_config['TWILIO_API_TOKEN']
-        config.twilio_api_sid = twilio_config['TWILIO_API_SID']
+        config.twilio_api_token = twilio_config['TWILIO_API_TOKEN'] || ENV['TWILIO_API_TOKEN']
+        config.twilio_api_sid = twilio_config['TWILIO_API_SID'] || ENV['TWILIO_API_SID']
       end
     end
 

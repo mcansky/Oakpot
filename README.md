@@ -2,6 +2,10 @@
 
 This little module is aimed to save some time to add call and sms capacities to an existing application or module.
 
+## Test status
+
+https://www.codeship.io/projects/ea65fff0-2172-0131-e459-3688c4e23c72/status
+
 ## Installation
 
 Add this line to your application's Gemfile:
